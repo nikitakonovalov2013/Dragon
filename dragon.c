@@ -87,28 +87,23 @@ int F_func(u_int *A) {
 
 int init_key(u64 *key, u64 *iv, element *W,  int n) {
 	
-	u64 s_k0 = ((key[0]<<32)^(key[0]>>32));
-	u64 s_k1 = ((key[1]<<32)^(key[1]>>32));
-	u64 s_iv0 = ((iv[0]<<32)^(iv[0]>>32));
-	u64 s_iv1 = ((iv[1]<<32)^(iv[1]>>32));
-	
 	if (n == 1) {
 		W[0].lb = key[0];
 	      	W[0].rb = key[1];
-		W[1].lb = s_k0 ^ s_iv0;
-		W[1].rb = s_k1 ^ s_iv1;
+		W[1].lb = key[1] ^ iv[1];
+		W[1].rb = key[0] ^ iv[0];
 		W[2].lb = iv[0];
 		W[2].rb = iv[1];
-		W[3].lb = key[0] ^ s_iv0;
-		W[3].rb = key[1] ^ s_iv1;
-		W[4].lb = s_k0;
-		W[4].rb = s_k1;
+		W[3].lb = key[0] ^ iv[1];
+		W[3].rb = key[1] ^ iv[0];
+		W[4].lb = key[1];
+		W[4].rb = key[0];
 		W[5].lb = key[0] ^ iv[0];
 		W[5].rb = key[1] ^ iv[1];
-		W[6].lb = s_iv0;
-		W[6].rb = s_iv1;
-		W[7].lb = s_k0 ^ iv[0];
-		W[7].rb	= s_k1 ^ iv[1];
+		W[6].lb = iv[1];
+		W[6].rb = iv[0];
+		W[7].lb = key[1] ^ iv[0];
+		W[7].rb	= key[0] ^ iv[1];
 	}
 	else {
 		W[0].lb = key[0];
